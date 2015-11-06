@@ -25,13 +25,12 @@ GPSIMUWindow::GPSIMUWindow(QWidget *parent) :
 
     //QFile1 qf1 ("C:\\hg\\oahu_geo_byte") ;
     //qf1.write
-    qDebug() << "entering makeQImage3" ;
+    //qDebug() << "entering makeQImage3" ;
     ui->imageDisplay->makeQImage3 (data, 4096, 2048) ;
     ui->imageDisplay->setGPSLoc (21.35, -157.89, 180.);
 
 
-    qDebug() << "exitting makeQImage3" ;
-    //ui->imageDisplay->repaint() ;
+
 
     //delete [] data ;
 }
@@ -99,7 +98,8 @@ void GPSIMUWindow::updateGPSVals() {
         ui->imageDisplay->repaint() ;
     }
     else
-        ui->imageDisplay->setGPSLoc (21.35, -157.89, 180.);
+        ui->imageDisplay->setGPSLoc (latval, -1.*lonval, qgps->heading);
+        //ui->imageDisplay->setGPSLoc (21.35, -157.89, 180.);
 
 
 }
