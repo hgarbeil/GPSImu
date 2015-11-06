@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         gpsimuwindow.cpp \
     myglwidget.cpp \
-    qgpsdevice.cpp
+    qgpsdevice.cpp \
+    myimagewidget.cpp
 
 HEADERS  += gpsimuwindow.h \
     myglwidget.h \
-    qgpsdevice.h
+    qgpsdevice.h \
+    myimagewidget.h
 
 FORMS    += gpsimuwindow.ui
 

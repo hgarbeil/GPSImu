@@ -46,6 +46,7 @@ void QGPSDevice::init (){
     status = qsport->open (QIODevice::ReadWrite) ;
     qsport->setBaudRate (115200) ;
     qDebug()<< "Serial port status is " << status  ;
+    //if (status)
     qsport->flush() ;
 
 
@@ -63,19 +64,30 @@ void QGPSDevice::readData() {
 
     indata->append (data) ;
     sz = indata->size() ;
-    //qDebug() << indata->constData() ;
-    if (indata->contains("\n") & indata->contains("$")){
+
+    if (indata->contains("$") & indata->contains("BYE")){
+        //if (!indata->contains("\n")) return ;
+
+        QString str (indata->constData()) ;
+
         //qDebug() << indata->constData() ;
-        int findPos = indata->indexOf ('\n') ;
-        QString gString0 = indata->left(findPos) ;
-        findPos = gString0.indexOf("$") ;
-        QString gString = gString0.right(findPos);
+        int findPos = str.indexOf ("BYE") ;
+        int findPos0 = str.indexOf ("$") ;
+
+        QString gString = str.mid(findPos0+1, findPos-findPos0-2) ;
+        qDebug() << str ;
+        qDebug() << gString ;
+
+
+
         clearNext = true ;
+
         sz = gString.size() ;
+        qDebug ()<< gString ;
         //qDebug() << indata->constData() << "size is " << sz  ;
         //qDebug() << indata->constData() << "size is " << sz  ;
         if (sz < 240)
-            parseVals (gString0.toLatin1().data()) ;
+            parseVals (gString.toLatin1().data()) ;
             //parseGPS (indata->constData()) ;
     }
 
@@ -88,12 +100,19 @@ void QGPSDevice::parseVals(const char *indata){
     QString *str = new QString(indata) ;
     QStringList toked = str->split(" ") ;
     int nitems = toked.count() ;
-    if (nitems < 12)
+    if (nitems < 9)
         return ;
+    for (int i=0 ;i<nitems; i++)
+
     *timestring = toked[1] ;
-    heading = toked[9].toFloat() ;
-    pitch = toked[10].toFloat()/10. ;
-    roll = toked [11].toFloat()/10. ;
+    latVal = toked[2].toInt()/100. ;
+    lonVal = toked[3].toInt()/100. ;
+    altVal = toked[4].toInt()/10. ;
+    fix = toked[5].toInt() ;
+    nSats = toked[6].toInt() ;
+    heading = toked[7].toInt()/10. ;
+    pitch = toked[8].toFloat()/10. ;
+    roll = toked [9].toFloat()/10. ;
     emit(updateVals()) ;
 
 }

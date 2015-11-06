@@ -16,6 +16,7 @@ public:
     explicit GPSIMUWindow(QWidget *parent = 0);
     ~GPSIMUWindow();
     QGPSDevice *qgps ;
+    float latval, lonval, altval ;
 protected:
     void changeEvent(QEvent *e);
     
