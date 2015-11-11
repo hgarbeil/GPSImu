@@ -12,8 +12,8 @@ GPSIMUWindow::GPSIMUWindow(QWidget *parent) :
     connect (ui->myGLWidget, SIGNAL(yawChanged(int)), this, SLOT(yawChanged(int))) ;
     connect (ui->myGLWidget, SIGNAL(rollChanged(int)), this, SLOT(rollChanged(int))) ;
     qgps = new QGPSDevice () ;
-    qgps->init() ;
-    connect (qgps, SIGNAL(updateVals()), this, SLOT(updateGPSVals())) ;
+    //qgps->init() ;
+    //connect (qgps, SIGNAL(updateVals()), this, SLOT(updateGPSVals())) ;
     QFile qf ("C:\\hg\\oahu_geo_byte") ;
 
     qf.open (QIODevice::ReadOnly) ;
@@ -29,6 +29,10 @@ GPSIMUWindow::GPSIMUWindow(QWidget *parent) :
     ui->imageDisplay->makeQImage3 (data, 4096, 2048) ;
     ui->imageDisplay->setGPSLoc (21.35, -157.89, 180.);
 
+    server[0] = new MyTcpServer(this) ;
+    connect (server[0], SIGNAL(newConnection()), server[0], SLOT(acceptConnection()));
+    connect (server[0], SIGNAL(gotData(QString)), this, SLOT(handleData(QString)));
+    server[0]->listen (QHostAddress::Any, 8890) ;
 
 
 
@@ -100,6 +104,14 @@ void GPSIMUWindow::updateGPSVals() {
     else
         ui->imageDisplay->setGPSLoc (latval, -1.*lonval, qgps->heading);
         //ui->imageDisplay->setGPSLoc (21.35, -157.89, 180.);
+
+
+}
+
+
+void GPSIMUWindow::handleData (QString str) {
+    qgps->parseVals (str.toLatin1().data()) ;
+    this->updateGPSVals() ;
 
 
 }

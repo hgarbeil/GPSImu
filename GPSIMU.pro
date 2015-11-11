@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport opengl
+QT       += core gui serialport opengl network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         gpsimuwindow.cpp \
     myglwidget.cpp \
     qgpsdevice.cpp \
-    myimagewidget.cpp
+    myimagewidget.cpp \
+    mytcpserver.cpp
 
 HEADERS  += gpsimuwindow.h \
     myglwidget.h \
     qgpsdevice.h \
-    myimagewidget.h
+    myimagewidget.h \
+    mytcpserver.h
 
 FORMS    += gpsimuwindow.ui
 

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "qgpsdevice.h"
+#include "mytcpserver.h"
 
 namespace Ui {
 class GPSIMUWindow;
@@ -16,6 +17,7 @@ public:
     explicit GPSIMUWindow(QWidget *parent = 0);
     ~GPSIMUWindow();
     QGPSDevice *qgps ;
+    MyTcpServer *server[1] ;
     float latval, lonval, altval ;
 protected:
     void changeEvent(QEvent *e);
@@ -28,6 +30,7 @@ public slots :
     void rollChanged(int) ;
     void yawChanged(int);
     void updateGPSVals() ;
+    void handleData(QString);
 };
 
 #endif // GPSIMUWINDOW_H
