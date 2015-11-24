@@ -14,7 +14,7 @@ GPSIMUWindow::GPSIMUWindow(QWidget *parent) :
     qgps = new QGPSDevice () ;
     //qgps->init() ;
     //connect (qgps, SIGNAL(updateVals()), this, SLOT(updateGPSVals())) ;
-    QFile qf ("C:\\hg\\oahu_geo_byte") ;
+    QFile qf ("/home/hg/data/oahu_geo_byte") ;
 
     qf.open (QIODevice::ReadOnly) ;
     int nbytesToRead = 2048 * 4096 * 3 ;
