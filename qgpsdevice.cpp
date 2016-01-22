@@ -99,14 +99,24 @@ void QGPSDevice::parseVals(const char *indata){
     //qDebug() << indata  ;
     QString *str = new QString(indata) ;
     QStringList toked = str->split(" ") ;
+    int latdeg, londeg ;
+    float tmpval, latmin, lonmin ;
     int nitems = toked.count() ;
-    if (nitems < 9)
+    if (nitems < 10)
         return ;
     for (int i=0 ;i<nitems; i++)
 
     *timestring = toked[1] ;
-    latVal = toked[2].toInt()/100. ;
-    lonVal = toked[3].toInt()/100. ;
+    latVal = toked[2].toInt()/10000. ;
+    tmpval = toked[2].toFloat() ;
+    latdeg = int(tmpval/100.) ;
+    latmin = tmpval - (latdeg * 100) ;
+    latVal = latdeg + latmin/60. ;
+    tmpval = toked[3].toFloat() ;
+    londeg = int(tmpval/100.) ;
+    lonmin = tmpval - (londeg * 100) ;
+    lonVal = londeg + lonmin/60. ;
+    //lonVal = toked[3].toInt()/10000. ;
     altVal = toked[4].toInt()/10. ;
     fix = toked[5].toInt() ;
     nSats = toked[6].toInt() ;

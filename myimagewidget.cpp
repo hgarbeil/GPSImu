@@ -29,8 +29,8 @@ void MyImageWidget::resizeEvent (QResizeEvent *re){
 void MyImageWidget::getXY (float lat, float lon, int *x, int *y){
 
     float ydiff, xdiff ;
-    *y = (startLat - lat) / latSpace / scaleY  ;
-    *x = (lon - startLon) / lonSpace / scaleX ;
+    *y = ((startLat - lat) / latSpace - 434)/ scaleY  ;
+    *x = ((lon - startLon) / lonSpace -326)/ scaleX ;
 
 }
 
@@ -44,10 +44,10 @@ void MyImageWidget::setGPSLoc (float lat, float lon, float heading){
     xoff = 12. * sin(arcHead) ;
     yoff = 12. * cos(arcHead) ;
     getXY (lat_gps, lon_gps, &x_gps, &y_gps) ;
-    x_start_gps = x_gps + xoff ;
-    y_start_gps = y_gps - yoff ;
-    x_end_gps = x_gps - xoff * .7 ;
-    y_end_gps = y_gps + yoff * .7 ;
+    x_start_gps = (x_gps + xoff);
+    y_start_gps = (y_gps - yoff) ;
+    x_end_gps = (x_gps - xoff) ;
+    y_end_gps = (y_gps + yoff) ;
     repaint() ;
 }
 

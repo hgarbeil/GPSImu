@@ -28,3 +28,4 @@ HEADERS  += gpsimuwindow.h \
 FORMS    += gpsimuwindow.ui
 
 #LIBS += libQt5OpenGL.a
+LIBS += -lGLU

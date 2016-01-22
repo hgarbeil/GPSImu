@@ -32,7 +32,9 @@ void MyTcpServer::startRead () {
     client->read(buffer, nbytes);
     sprintf (outbuff, "Received %d", nbytes) ;
     QString *outstr = new QString (buffer) ;
-
+    if (strstr(buffer, "HELLO")) {
+        client->write ("$OK\r\n") ;
+    }
     emit (gotData (*outstr)) ;
 
 
